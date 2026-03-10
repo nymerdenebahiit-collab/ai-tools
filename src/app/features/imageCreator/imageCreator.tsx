@@ -1,6 +1,6 @@
 "use client";
 
-import { createFoodImage } from "@/app/api/imageCreator";
+import { createFoodImage } from "./api";
 import { Button } from "@/components/ui/button";
 import { FileText, RotateCw, Sparkles } from "lucide-react";
 import { ImageIcon } from "lucide-react";
@@ -13,6 +13,7 @@ export default function ImageCreatorTab() {
   const [panels, setPanels] = useState<{ caption: string; image: string }[]>(
     []
   );
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleGenerate = async () => {
     if (!prompt.trim()) {
@@ -21,6 +22,7 @@ export default function ImageCreatorTab() {
     }
 
     setLoading(true);
+    setErrorMessage("");
     try {
       const response = await createFoodImage(prompt);
 
@@ -28,8 +30,10 @@ export default function ImageCreatorTab() {
 
       setPanels(response.result);
     } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Failed to generate image";
       console.error(error);
-      alert("Failed to generate image");
+      setErrorMessage(message);
     } finally {
       setLoading(false);
     }
@@ -40,7 +44,7 @@ export default function ImageCreatorTab() {
       <div className="flex justify-between">
         <p className="text-[#09090B] font-sans text-xl font-semibold leading-7 tracking-normal flex flex-row gap-2">
           <Sparkles />
-          Comic image generator
+          Image Generator
         </p>
         <Button variant="outline" className="h-10 w-12">
           <RotateCw />
@@ -48,7 +52,7 @@ export default function ImageCreatorTab() {
       </div>
 
       <p className="text-[#71717A] font-sans text-sm font-normal leading-5 tracking-normal">
-        Right now you are a comic writer. Let your imagination come to life.
+        Describe the image you want, and AI will generate it.
       </p>
       <textarea
         id="picture"
@@ -72,6 +76,9 @@ export default function ImageCreatorTab() {
           )}
         </Button>
       </div>
+      {errorMessage && (
+        <p className="text-sm text-red-600">{errorMessage}</p>
+      )}
 
       <p className="text-[#09090B] font-sans text-xl font-semibold leading-7 tracking-normal flex flex-row gap-2">
         <ImageIcon />

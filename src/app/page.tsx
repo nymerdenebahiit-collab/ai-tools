@@ -3,6 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ImageAnalysisTab from "./features/imageAnalysis/ImageAnalysis";
 import ImageCreatorTab from "./features/imageCreator/imageCreator";
+import RecognitionTab from "./features/recognition/Recognition";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Send, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
@@ -52,24 +53,40 @@ export default function Home() {
   }, [messages]);
 
   return (
-    <div className="flex min-h-screen p-7 justify-center relative">
-      <Tabs defaultValue="account" className="w-100">
-        <TabsList>
-          <TabsTrigger value="image-analysis">Image Analysis</TabsTrigger>
-          <TabsTrigger value="image-creator">Comic creator</TabsTrigger>
-        </TabsList>
+    <div className="relative min-h-screen bg-[#FAFAFA] px-4 pb-7 pt-[84px] sm:px-7">
+      <div className="fixed left-0 top-0 z-40 w-full h-[56px] px-12 flex items-center border-b bg-background/95 backdrop-blur">
+        <span className="text-lg font-semibold tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-500 bg-clip-text text-transparent">
+          AI Tools
+        </span>
+      </div>
 
-        <TabsContent value="image-analysis">
-          <ImageAnalysisTab />
-        </TabsContent>
+      <div className="mx-auto w-full max-w-3xl rounded-2xl border border-[#E4E4E7] bg-white p-4 shadow-sm sm:p-6">
+        <Tabs defaultValue="image-analysis" className="w-full">
+          <TabsList className="w-full">
+            <TabsTrigger value="image-analysis">Image Analysis</TabsTrigger>
+            <TabsTrigger value="image-creator">Image Creator</TabsTrigger>
+            <TabsTrigger value="ingredient-recognition">
+              Ingredient recognition
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="image-creator">
-          <ImageCreatorTab />
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="image-analysis">
+            <ImageAnalysisTab />
+          </TabsContent>
+
+          <TabsContent value="image-creator">
+            <ImageCreatorTab />
+          </TabsContent>
+
+          <TabsContent value="ingredient-recognition">
+            <RecognitionTab />
+          </TabsContent>
+        </Tabs>
+      </div>
+
       <Button
         onClick={() => setOpen(true)}
-        className="absolute bottom-9 right-9 rounded-full h-12 w-12"
+        className="fixed bottom-9 right-9 h-12 w-12 rounded-full"
       >
         <MessageCircle />
       </Button>

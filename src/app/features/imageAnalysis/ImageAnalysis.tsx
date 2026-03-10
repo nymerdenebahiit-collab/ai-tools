@@ -1,6 +1,6 @@
 "use client";
 
-import { uploadImageForAnalysis } from "@/app/api/imageAnalysis";
+import { uploadImageForAnalysis } from "./api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FileText, RotateCw, Sparkles } from "lucide-react";

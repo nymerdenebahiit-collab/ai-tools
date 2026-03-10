@@ -12,7 +12,10 @@ export const createFoodImage = async (prompt: string) => {
       );
   
       if (!response.ok) {
-        throw new Error("Failed to create image");
+        const errorText = await response.text().catch(() => "");
+        throw new Error(
+          `Failed to create image (status ${response.status})${errorText ? `: ${errorText}` : ""}`
+        );
       }
   
       const data = await response.json();
